@@ -4,15 +4,32 @@ import sys
 import socket                                                # pour les sockets
 from urllib.request import build_opener, urlopen
 import urllib
+import json
 
 from program.FileManager.CreateFile import *
+from program.FileManager.RemoveFile import *
+from program.Info.Config import *
 from program.ping import *
 
 os.system("clear")
 
+with open('./json/list_command.json') as cmd_json:
+    pass
+
 # Init
 monIP = socket.gethostbyname(socket.gethostname())  # récupère l'adresse IP locale de la machine (de type '0.0.0.0')
 monOS = sys.platform
+
+config_for_json = {
+        "monIP": str(monIP), 
+        "monOS": str(monOS)
+    }
+
+with open('./program/Info/config.json', 'w') as config_json:
+    try:
+        json.dumps(config_for_json)
+    except:
+        print(f"{bcolors.FAIL}Error : cant write")
 
 urllib.request.urlcleanup()
 
@@ -30,15 +47,6 @@ class bcolors:
 list_command = ["help", "ping"]
 
 # Def List
-
-    # Supprime un fichier
-
-def removeFile():
-
-    name = input("Donnez le nom du fichier à supprimer : ")
-    os.system('rm ' + name)
-    print(f"{bcolors.OKBLUE}" + name + ' à bien été supprimé')
-
 
     # Help
 
@@ -66,29 +74,9 @@ def help():
 while True:
     ask = input(f"{bcolors.OKGREEN}TerminalManager : {bcolors.ENDC}") # PiManager Start Terminal
 
-    if ask == "config":
-        print(f"{bcolors.WARNING}")
-        try :
-        # IPV 4 ou IPV6 automatique
-            ipPub = urlopen('https://ipv4v6.lafibre.info/ip.php').read()
-            print("Adresse IP publique :", ipPub.decode('ascii'))
-            print("Protocole IP : IPv%d" % (6 if b':' in ipPub else 4))
-
-        #IPV4 seulement
-            ipPub = urlopen('https://ipv4.lafibre.info/ip.php').read()
-            print("Adresse IP publique :", ipPub.decode('ascii'))
-            print("Protocole IP : IPv4" )
-
-        except :
-            print('Pour l\'adresse publique se connecter à https://ip.lafibre.info/')
-            pass
-
-        print("IP : ",monIP)
-        print("Operating System : ", monOS)
-        print(f"{bcolors.ENDC}")
-
-
         # Commandes
+    if ask == "config":
+        config()
 
     if ask == "ping":
         ask = input('Quelle machine / domaine ? ')
@@ -114,7 +102,7 @@ while True:
         createFile()
 
     if ask == "rm":
-        removeFIle()
+        removeFile()
 
     if ask == "exit":
         exit()
