@@ -5,7 +5,7 @@ import socket                                                # pour les sockets
 from urllib.request import build_opener, urlopen
 import urllib
 
-from program.CreateFile import *
+from program.FileManager.CreateFile import *
 from program.ping import *
 
 os.system("clear")
@@ -31,22 +31,9 @@ list_command = ["help", "ping"]
 
 # Def List
 
-    # Start Bot
-'''def start_program():
-    print("1 - Shelock")
-    ask = input("")
-
-    #if ask == "1":
-    #    os.system("cd /Users/grahamdanillon/Documents/Perso/Autre/DEV/Python/TerminalManager/programs/sherlock")
-    #    print(f'{bcolors.WARNING}Outils Sherlock démaré avec succès')
-    #    while True:
-    #        os.system("cd ./programs/")
-    #        ask = input("Sherlock : ")
-    #        os.system(ask)'''
-
     # Supprime un fichier
 
-def removeFIle():
+def removeFile():
 
     name = input("Donnez le nom du fichier à supprimer : ")
     os.system('rm ' + name)
